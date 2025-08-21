@@ -1,0 +1,21 @@
+{
+  "name": "setup_and_test_prompt",
+  "version": "1.0.0",
+  "description": "A simple setup to test Google Generative AI with Node.js",
+  "main": "hello_world.js",
+  "type": "module",
+  "scripts": {
+    "start": "node prompt/cot.js",
+    "dev": "node prompt/hello_world.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "js-tiktoken": "^1.0.21",
+    "mongoose": "^8.17.2",
+    "nodemon": "^3.1.10",
+    "openai": "^5.13.1"
+  }
+}
