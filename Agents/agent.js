@@ -1,6 +1,7 @@
 import "dotenv/config";
 import OpenAI from "openai/index.js";
 import axios from "axios";
+import { exec } from 'child_process';
 
 const openai = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -31,10 +32,23 @@ async function getGithubUserInfoByUsername(username = '') {
   });
 }
 
+async function executeCommand(cmd = '') {
+  return new Promise((res, rej) => {
+    exec(cmd, (error, data) => {
+      if (error) {
+        return res(`Error running command ${error}`);
+      } else {
+        res(data);
+      }
+    });
+  });
+}
+
 
 const TOOL_MAP = {
   getWeatherDetailsByCity: getWeatherDetailsByCity,
   getGithubUserInfoByUsername: getGithubUserInfoByUsername,
+   executeCommand: executeCommand,
 };
 
 async function main() {
@@ -52,6 +66,7 @@ async function main() {
     Available Tools:
     - getWeatherDetailsByCity(cityname: string): Returns the current weather data of the city.
     - getGithubUserInfoByUsername(username: string): Returns the public info about the github user using github api
+    - executeCommand(command: string): Takes a linux / unix command as arg and executes the command on user's machine and returns the output
 
     Rules:
     - Strictly follow the output JSON format
@@ -81,7 +96,7 @@ async function main() {
 
   const messages = [
     { role: "system", content: SYSTEM_PROMPT },
-    { role: "user", content: "give some information about Shehbaz456 from github api and show data in tabular format" },
+    { role: "user", content: "hey, create a folder todo_app and create a simple todo application using html, css and js" },
   ];
 
 
@@ -89,7 +104,8 @@ async function main() {
 
   while (true) {  
     const response = await openai.chat.completions.create({
-      model: "gemini-2.5-flash-lite",
+      // model: "gemini-2.5-flash-lite",
+      model: "gemini-2.5-pro",
       messages: messages,
     });
 
