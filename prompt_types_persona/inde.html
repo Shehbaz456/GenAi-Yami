@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek API Authentication Error Solution</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #2d3b4c, #3f5165);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #ff9e7d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .error-section {
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .error-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .error-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .code-container, .solutions {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4facfe;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 15px;
+            color: #00f2fe;
+        }
+        
+        pre {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        code {
+            font-family: 'Fira Code', monospace;
+            color: #d4d4d4;
+        }
+        
+        .keyword {
+            color: #569cd6;
+        }
+        
+        .function {
+            color: #dcdcaa;
+        }
+        
+        .string {
+            color: #ce9178;
+        }
+        
+        .comment {
+            color: #6a9955;
+        }
+        
+        .params {
+            color: #9cdcfe;
+        }
+        
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+        }
+        
+        .note {
+            background: rgba(79, 172, 254, 0.1);
+            border-left: 4px solid #4facfe;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .warning {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 4px solid #ff6b6b;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .api-key {
+            font-weight: bold;
+            color: #00f2fe;
+            background: rgba(0, 242, 254, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .try-button {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 12px 20px;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .try-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .solution-list {
+            list-style-type: none;
+        }
+        
+        .solution-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .solution-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4facfe;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DeepSeek API Authentication Error</h1>
+            <p class="subtitle">Resolving the 401 Authentication Failed Error</p>
+        </header>
+        
+        <div class="error-section">
+            <div class="error-header">
+                <div class="error-icon">⚠️</div>
+                <h2>Error: 401 Authentication Failed</h2>
+            </div>
+            <p>The error indicates that your DeepSeek API key is being rejected by the server. This could be due to several reasons:</p>
+            <ul>
+                <li>Using an OpenRouter key instead of a direct DeepSeek API key</li>
+                <li>Incorrect API key format</li>
+                <li>Invalid or deactivated API key</li>
+                <li>Incorrect API endpoint</li>
+            </ul>
+        </div>
+        
+        <div class="content">
+            <div class="code-container">
+                <h2>Current Problematic Code</h2>
+                
+                <h3>persona_deep.js</h3>
+                <pre><code><span class="keyword">import</span> <span class="string">"dotenv/config"</span>;
+<span class="keyword">import</span> OpenAI <span class="keyword">from</span> <span class="string">"openai/index.js"</span>;
+
+<span class="keyword">const</span> openai = <span class="keyword">new</span> OpenAI({
+  <span class="params">apiKey</span>: process.env.<span class="params">DEEPSEEK_API_KEY</span>, <span class="comment">// This is an OpenRouter key</span>
+  <span class="params">baseURL</span>: <span class="string">"https://api.deepseek.com/v1"</span>, <span class="comment">// But pointing to DeepSeek</span>
+});
+
+<span class="comment">// ... rest of the code</span></code></pre>
+                
+                <h3>Environment Variables (.env)</h3>
+                <pre><code>DEEPSEEK_API_KEY=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</code></pre>
+                
+                <div class="warning">
+                    <strong>Issue Detected:</strong> You're using an OpenRouter API key but trying to connect directly to DeepSeek's API. These are incompatible.
+                </div>
+            </div>
+            
+            <div class="solutions">
+                <h2>Solutions</h2>
+                
+                <div class="solution-list">
+                    <li>
+                        <strong>Option 1: Use OpenRouter with DeepSeek model</strong>
+                        <p>Modify your code to use OpenRouter's endpoint instead of DeepSeek's direct API:</p>
+                        <pre><code><span class="keyword">const</span> openai = <span class="keyword">new</span> OpenAI({
+  <span class="params">apiKey</span>: process.env.<span class="params">DEEPSEEK_API_KEY</span>,
+  <span class="params">baseURL</span>: <span class="string">"https://openrouter.ai/api/v1"</span>,
+});</code></pre>
+                        <p>And specify the DeepSeek model in your request:</p>
+                        <pre><code><span class="params">model</span>: <span class="string">"deepseek/deepseek-chat"</span></code></pre>
+                    </li>
+                    
+                    <li>
+                        <strong>Option 2: Get a direct DeepSeek API key</strong>
+                        <p>Visit <a href="https://platform.deepseek.com/" style="color: #4facfe;">DeepSeek Platform</a> to get a direct API key, then update your .env file:</p>
+                        <pre><code>DEEPSEEK_API_KEY=your_actual_deepseek_key_here</code></pre>
+                        <p>Keep your baseURL as "https://api.deepseek.com/v1"</p>
+                    </li>
+                    
+                    <li>
+                        <strong>Option 3: Verify your API key format</strong>
+                        <p>Ensure your API key follows the correct format. DeepSeek keys typically start with "sk-" followed by a long string of characters.</p>
+                    </li>
+                    
+                    <li>
+                        <strong>Option 4: Check API key activation</strong>
+                        <p>Verify that your API key is active and has sufficient credits or permissions to make requests.</p>
+                    </li>
+                </div>
+                
+                <h3>Recommended Solution</h3>
+                <div class="note">
+                    <p>Based on your current setup, <strong>Option 1</strong> is likely the easiest fix since you already have an OpenRouter key.</p>
+                </div>
+                
+                <h3>Corrected Code for OpenRouter</h3>
+                <pre><code><span class="keyword">import</span> <span class="string">"dotenv/config"</span>;
+<span class="keyword">import</span> OpenAI <span class="keyword">from</span> <span class="string">"openai/index.js"</span>;
+
+<span class="keyword">const</span> openai = <span class="keyword">new</span> OpenAI({
+  <span class="params">apiKey</span>: process.env.<span class="params">DEEPSEEK_API_KEY</span>,
+  <span class="params">baseURL</span>: <span class="string">"https://openrouter.ai/api/v1"</span>,
+});
+
+<span class="keyword">async</span> <span class="function">function</span> <span class="function">main</span>() {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> openai.chat.completions.<span class="function">create</span>({
+    <span class="params">model</span>: <span class="string">"deepseek/deepseek-chat"</span>,
+    
+    <span class="params">messages</span>: [
+      <span class="comment">// ... your messages</span>
+    ],
+  });
+  
+  console.<span class="function">log</span>(response.choices[0].message.content);
+}
+
+<span class="function">main</span>().<span class="function">catch</span>(<span class="params">error</span> => {
+  console.<span class="function">error</span>(<span class="string">"Error:"</span>, error);
+});</code></pre>
+            </div>
+        </div>
+        
+        <div class="note">
+            <strong>Important:</strong> Remember to install the required dependencies with <code>npm install openai dotenv</code> and restart your application after making these changes.
+        </div>
+        
+        <button class="try-button" onclick="runTest()">Test Configuration</button>
+    </div>
+
+    <script>
+        function runTest() {
+            alert("In a real environment, you would test your API configuration with a simple request. Make sure to:\n\n1. Use the correct endpoint for your API key\n2. Verify your API key is valid\n3. Check your environment variables are loaded correctly");
+        }
+    </script>
+</body>
+</html>
