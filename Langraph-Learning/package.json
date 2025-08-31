@@ -1,0 +1,17 @@
+{
+  "name": "langraph-learning",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node graph.js",
+    "dev": "node graph.js"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.3.53",
+    "@langchain/core": "^0.3.72",
+    "@langchain/langgraph": "^0.4.8",
+    "@langchain/openai": "^0.6.9",
+    "dotenv": "^16.6.1"
+  }
+}
