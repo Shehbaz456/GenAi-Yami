@@ -38,10 +38,31 @@ const CookingAgent = new Agent({
     You help the users with food options and recipes and help them cook food.`
 });
 
+
+const CodingAgent = new Agent({
+  name: 'Coding Agent',
+  instructions: `
+        You are an expert coding assistant particullarly in Javascript
+    `,
+  tools:[CookingAgent.asTool()]
+});
+
+const gatewayAgent = Agent.create({
+  name: 'Triage Agent',
+  instructions: `
+    You have list of handoffs which you need to use to handoff the current user query to the correct agent.
+    You should hand off to Coding Agent if user asks about a coding question.
+    You should hand off to Cooking Agent if question is realted to Cooking.
+  `,
+  handoffs: [CodingAgent, CookingAgent],
+});
+
 async function handleCookingQuery(query) {
-    const result = await  run(CookingAgent, query)
-    console.log(`result history`,result.history);
+    // const result = await  run(CookingAgent, query)
+    const result = await run(gatewayAgent, query);
+    console.log(`Result History`, result.history);
+    console.log(`Hand Off To`, result.lastAgent.name);
     console.log(result.finalOutput);
 }
 
-handleCookingQuery("Depending on time, what are some good food for me, also what are the menu options?"); 
+handleCookingQuery("Depending on time, what are some good food for me, also what are the menu options? Also write code to add two numbers in Javascript"); 
