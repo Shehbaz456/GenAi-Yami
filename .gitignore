@@ -1,0 +1,47 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# dotenv environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build / Dist outputs
+dist/
+build/
+out/
+.next/
+.vercel/
+.cache/
+
+# Coverage / Testing
+coverage/
+.nyc_output/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Optional: Ignore compiled TypeScript
+*.tsbuildinfo
+
+# Optional: Ignore generated docs
+docs/_build/
