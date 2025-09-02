@@ -56,7 +56,9 @@ const CodingAgent = new Agent({
 const gatewayAgent = Agent.create({
   name: 'Triage Agent',
   instructions: `
+
   ${RECOMMENDED_PROMPT_PREFIX}
+
     You have list of handoffs which you need to use to handoff the current user query to the correct agent.
     You should hand off to Coding Agent if user asks about a coding question.
     You should hand off to Cooking Agent if question is realted to Cooking.
@@ -72,5 +74,5 @@ async function handleCookingQuery(query) {
     console.log(result.finalOutput);
 }
 
-handleCookingQuery("Depending on time, what are some good food for me, also what are the menu options? Also write code to add two numbers in Javascript"); 
+handleCookingQuery("Depending on time, also what are the menu options i have?, how to cook pasta,"); 
 
