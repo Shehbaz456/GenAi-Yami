@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { Agent, run , tool } from '@openai/agents';
+import { RECOMMENDED_PROMPT_PREFIX } from '@openai/agents-core/extensions';
 import { z } from 'zod';
 
 const getCurrentTime = tool({
@@ -44,12 +45,18 @@ const CodingAgent = new Agent({
   instructions: `
         You are an expert coding assistant particullarly in Javascript
     `,
-  tools:[CookingAgent],
+  tools: [
+    CookingAgent.asTool({
+      toolName: "cooking_agent",
+      toolDescription: "Helps with food options, recipes, and cooking guidance."
+    })
+  ]
 });
 
 const gatewayAgent = Agent.create({
   name: 'Triage Agent',
   instructions: `
+  ${RECOMMENDED_PROMPT_PREFIX}
     You have list of handoffs which you need to use to handoff the current user query to the correct agent.
     You should hand off to Coding Agent if user asks about a coding question.
     You should hand off to Cooking Agent if question is realted to Cooking.
@@ -66,3 +73,4 @@ async function handleCookingQuery(query) {
 }
 
 handleCookingQuery("Depending on time, what are some good food for me, also what are the menu options? Also write code to add two numbers in Javascript"); 
+
