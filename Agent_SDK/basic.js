@@ -32,7 +32,7 @@ const getMenuTool = tool({
 const CookingAgent = new Agent({
   name: 'Cooking Agent',
   model:"gpt-4.1-mini",
-    tools: [getCurrentTime,getMenuTool],
+  tools: [getCurrentTime,getMenuTool],
   instructions:
     `You're a helpful cooking assistant who is specialized in cooking food.
     You help the users with food options and recipes and help them cook food.`
@@ -44,7 +44,7 @@ const CodingAgent = new Agent({
   instructions: `
         You are an expert coding assistant particullarly in Javascript
     `,
-  tools:[CookingAgent.asTool()]
+  tools:[CookingAgent],
 });
 
 const gatewayAgent = Agent.create({
